@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Django REST framework 
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -134,3 +136,5 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 ALLOWED_HOSTS=["ec2-18-231-181-193.sa-east-1.compute.amazonaws.com", "localhost", "127.0.0.1"]
+
+
