@@ -36,10 +36,13 @@ def user_list(request):
 
     # Excluir todos os users do banco de dados
     elif request.method == 'DELETE':
-        count = User.objects.all().delete()
-        return JsonResponse({'message': '{} Usuários deletados com sucesso!'.format(count[0])}, status=status.HTTP_204_NO_CONTENT)
-    
-
+        task = User.objects.all()
+        if task.exists() == False:
+            return JsonResponse({'message': 'Usuários não podem ser deletados, existem tarefas vinculadas!'}, status=status.HTTP_404_NOT_FOUND)
+        elif task.exists() == True:
+            count = User.objects.all().delete()
+            return JsonResponse({'message': '{} Usuários deletados com sucesso!'.format(count[0])}, status=status.HTTP_204_NO_CONTENT)
+       
 # GET / PUT / DELETE user
 # Encontrar um único user pelo id:
 @api_view(['GET', 'PUT', 'DELETE'])
@@ -65,9 +68,13 @@ def user_detail(request, pk):
         return JsonResponse(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     # Excluir um usuário com id especifico
-    elif request.method == 'DELETE': 
-        user.delete()
-        return JsonResponse({'message': 'Usuário deletado com sucesso!'}, status=status.HTTP_204_NO_CONTENT)
+    elif request.method == 'DELETE':
+        task = Task.objects.filter(user_id=pk)
+        if task.exists() == True:
+            return JsonResponse({'message': 'Usuário não pode ser deletado, existe tarefa vinculada!'}, status=status.HTTP_404_NOT_FOUND)
+        elif task.exists() == False:
+            user.delete()
+            return JsonResponse({'message': 'Usuário deletado com sucesso!'}, status=status.HTTP_204_NO_CONTENT)
 
 
 # OBTER lista de task, POSTAR uma nova task, EXCLUIR todos as tasks

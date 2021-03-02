@@ -144,7 +144,11 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 ALLOWED_HOSTS=["ec2-18-231-181-193.sa-east-1.compute.amazonaws.com", "localhost", "127.0.0.1"]
 
-CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = [
 'http://localhost:8000',
+'http://localhost:8081',
+'http://127.0.0.1:8000',
+'http://127.0.0.1:8081'
 ]
